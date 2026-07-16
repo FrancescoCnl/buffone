@@ -98,6 +98,15 @@ export default function RoomEntry({
           </button>
         </div>
       )}
+
+      <a
+        href="/privacy.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 font-serif text-[11.5px] text-crema/40 hover:text-crema/70"
+      >
+        Privacy Policy
+      </a>
     </div>
   );
 }

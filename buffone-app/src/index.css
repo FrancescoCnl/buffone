@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* Font ospitati localmente (public/fonts/), non più caricati da Google Fonts:
+   caricarli da fonts.googleapis.com invierebbe l'IP del visitatore a Google
+   ad ogni visita, senza base giuridica — un tribunale tedesco (Monaco, 2022)
+   lo ha giudicato una violazione del GDPR. Copre solo il set "latin" (accenti
+   italiani inclusi, U+0000-00FF): sufficiente per un sito interamente in
+   italiano, nessun altro alfabeto serve. Playfair Display è un variable font:
+   un solo file copre già i pesi 400/600/700/900 usati nell'app. */
+@font-face {
+  font-family: "Bebas Neue";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/bebas-neue-v16-latin-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/playfair-display-v40-latin-variable.woff2") format("woff2");
+}
+
 @theme {
   --font-display: "Bebas Neue", "Oswald", system-ui, sans-serif;
   --font-serif: "Playfair Display", Georgia, serif;
