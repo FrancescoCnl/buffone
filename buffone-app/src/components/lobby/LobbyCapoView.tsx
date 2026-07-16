@@ -51,7 +51,7 @@ export default function LobbyCapoView({
           BUFFONE
         </h1>
         <p className="mt-0.5 text-[12px] uppercase tracking-[2.5px] text-oro-light">
-          Lobby pre-partita · Vista Capo-Lobby
+          Lobby pre-partita — Regole dello spettacolo
         </p>
       </header>
 

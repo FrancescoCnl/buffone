@@ -6,7 +6,7 @@ export const RISK_LEVELS: { value: RiskLevel; label: string; desc: string }[] = 
   {
     value: "classico",
     label: "Classico",
-    desc: "1 carta Giullare — fedele all'originale.",
+    desc: "1 carta Giullare — equilibrato, ideale per iniziare.",
   },
   {
     value: "rischioso",

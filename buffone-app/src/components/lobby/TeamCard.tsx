@@ -86,12 +86,12 @@ export default function TeamCard({
 
         <div className="mb-2.5">
           <p className="mb-1 text-[10px] font-bold tracking-wide text-oro">
-            GIOCATORI NORMALI ({team.players.length})
+            ARTISTI ({team.players.length})
           </p>
           <div className="flex max-h-24 flex-col gap-1.5 overflow-y-auto">
             {team.players.length === 0 && (
               <p className="px-0.5 py-1 text-[12px] italic text-inchiostro/50">
-                — nessun giocatore normale —
+                — nessun artista —
               </p>
             )}
             {team.players.map((p) => (

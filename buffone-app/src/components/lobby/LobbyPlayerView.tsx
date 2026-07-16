@@ -40,7 +40,7 @@ export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
           BUFFONE
         </h1>
         <p className="mt-0.5 text-[12px] uppercase tracking-[2.5px] text-oro-light">
-          Lobby pre-partita · Vista Giocatore
+          Lobby pre-partita — In attesa del via
         </p>
       </header>
 
