@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bebas Neue", "Oswald", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  --color-vinaccia: #712b13;
+  --color-vinaccia-dark: #4d1c0c;
+  --color-oro: #ba7517;
+  --color-oro-light: #d99c3f;
+  --color-crema: #faeeda;
+  --color-inchiostro: #2c2c2a;
+
+  --color-team-red: #a6332b;
+  --color-team-blue: #2e5c82;
+  --color-team-green: #3c6e4a;
+  --color-team-yellow: #c99a2e;
+}
+
+body {
+  margin: 0;
+  background: var(--color-inchiostro);
+  color: var(--color-crema);
+  font-family: var(--font-serif);
+}
+
+@keyframes buffone-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.4);
+  }
+}
+
+.animate-buffone-pulse {
+  animation: buffone-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes spotlightPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes popScale {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.09);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes boardShake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  15% {
+    transform: translate(-8px, 4px) rotate(-0.6deg);
+  }
+  30% {
+    transform: translate(7px, -5px) rotate(0.6deg);
+  }
+  45% {
+    transform: translate(-6px, 5px) rotate(-0.5deg);
+  }
+  60% {
+    transform: translate(6px, -3px) rotate(0.5deg);
+  }
+  75% {
+    transform: translate(-4px, 2px) rotate(-0.3deg);
+  }
+  90% {
+    transform: translate(3px, -2px) rotate(0.2deg);
+  }
+}
+
+@keyframes jesterBlink {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px #7a1414 inset;
+  }
+  50% {
+    box-shadow: 0 0 0 4px #0a0908 inset;
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(160px) rotate(340deg);
+    opacity: 0;
+  }
+}
+
+.animate-board-shake {
+  animation: boardShake 700ms ease-in-out;
+}
