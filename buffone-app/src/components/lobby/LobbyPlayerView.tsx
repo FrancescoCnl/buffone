@@ -46,7 +46,7 @@ export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
           href="/regole.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-1 inline-block font-serif text-[11.5px] text-oro-light/70 hover:text-oro-light"
+          className="mt-2 inline-block rounded-lg border border-oro/50 px-3 py-1.5 font-display text-[12px] tracking-wide text-oro-light/80 hover:bg-oro/10 hover:text-oro-light"
         >
           📖 Regole del gioco
         </a>
@@ -59,7 +59,13 @@ export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
             : "absolute left-1/2 top-[122px] w-[360px] -translate-x-1/2"
         }
       >
-        <div className="rounded-md border-[3px] border-oro bg-crema p-[18px_22px] shadow-[0_12px_32px_rgba(0,0,0,0.35)]">
+        {/* Stesso tetto di altezza + scroll interno di LobbyCapoView: evita che
+            il pannello sconfini sotto al badge fisso della stanza. */}
+        <div
+          className={`rounded-md border-[3px] border-oro bg-crema p-[18px_22px] shadow-[0_12px_32px_rgba(0,0,0,0.35)] ${
+            isMobile ? "" : "max-h-[calc(100vh-160px)] overflow-y-auto"
+          }`}
+        >
           <h2 className="mb-3 border-b-2 border-oro pb-2 text-center font-display text-[22px] tracking-wide text-vinaccia">
             Regole della Partita
           </h2>
