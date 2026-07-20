@@ -50,11 +50,6 @@ export default function Scoreboard({
                 IN TURNO
               </div>
             )}
-            {isMine && (
-              <div className="absolute -top-[9px] left-2.5 rounded-lg bg-crema px-2 py-0.5 text-[10px] font-bold tracking-wide text-vinaccia">
-                TU
-              </div>
-            )}
             <div className="font-display text-[19px] tracking-wide text-crema">
               {TEAM_LABEL[id]}
             </div>

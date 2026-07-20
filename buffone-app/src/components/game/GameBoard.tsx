@@ -19,7 +19,7 @@ const TEAM_ORDER: TeamColor[] = ["red", "blue", "green", "yellow"];
 // solo un secondo layer radiale col colore della squadra molto attenuato.
 function boardBackground(myColor: TeamColor | null): string {
   if (!myColor) return BG_GRADIENT;
-  return `radial-gradient(ellipse at 50% 0%, ${TEAM_COLOR_HEX[myColor]}33 0%, transparent 60%), ${BG_GRADIENT}`;
+  return `radial-gradient(ellipse at 50% 0%, ${TEAM_COLOR_HEX[myColor]}b3 0%, ${TEAM_COLOR_HEX[myColor]}40 45%, transparent 85%), ${BG_GRADIENT}`;
 }
 
 export default function GameBoard({
