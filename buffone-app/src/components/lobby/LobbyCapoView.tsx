@@ -108,6 +108,30 @@ export default function LobbyCapoView({
               ))}
             </div>
             <p className="mt-1.5 text-[11.5px] italic text-inchiostro/70">{activeRisk.desc}</p>
+            {lobby.riskLevel === "personalizzato" && (
+              <div className="mt-2 flex items-center gap-2.5">
+                <button
+                  onClick={() => lobby.setCustomJesterCount(lobby.customJesterCount - 1)}
+                  disabled={lobby.customJesterCount <= 0}
+                  className="h-7 w-7 flex-none rounded border-2 border-oro font-serif text-[15px] font-bold text-vinaccia disabled:opacity-30"
+                >
+                  −
+                </button>
+                <span className="font-display text-[16px] tracking-wide text-vinaccia">
+                  {lobby.customJesterCount} carta{lobby.customJesterCount === 1 ? "" : "e"} Giullare
+                </span>
+                <button
+                  onClick={() => lobby.setCustomJesterCount(lobby.customJesterCount + 1)}
+                  disabled={lobby.customJesterCount >= lobby.maxCustomJesterCount}
+                  className="h-7 w-7 flex-none rounded border-2 border-oro font-serif text-[15px] font-bold text-vinaccia disabled:opacity-30"
+                >
+                  +
+                </button>
+                <span className="text-[11px] italic text-inchiostro/60">
+                  (max {lobby.maxCustomJesterCount} con {lobby.numTeams} Compagnie)
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="mb-3">

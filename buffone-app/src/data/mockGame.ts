@@ -17,13 +17,18 @@ const SETUP = {
 // di celle "non di squadra" (neutre + Giullare) è sempre neutral+1, dato che
 // SETUP.neutral è già il numero di neutre del Livello Classico (che ha 1 sola
 // carta Giullare a parte).
-function nonTeamSlots(teamCount: 2 | 3 | 4): number {
+export function nonTeamSlots(teamCount: 2 | 3 | 4): number {
   return SETUP[teamCount].neutral + 1;
 }
 
-function jesterCount(teamCount: 2 | 3 | 4, riskLevel: RiskLevel): number {
+function jesterCount(
+  teamCount: 2 | 3 | 4,
+  riskLevel: RiskLevel,
+  customJesterCount: number
+): number {
   if (riskLevel === "classico") return 1;
   if (riskLevel === "rischioso") return 3;
+  if (riskLevel === "personalizzato") return customJesterCount;
   return nonTeamSlots(teamCount); // caos: tutte le neutre diventano Giullare
 }
 
@@ -39,7 +44,8 @@ export function teamCardCount(
 export function buildGrid(
   teamCount: 2 | 3 | 4,
   riskLevel: RiskLevel,
-  startingTeam: TeamColor
+  startingTeam: TeamColor,
+  customJesterCount = 0
 ): {
   cards: GameCard[];
   cols: number;
@@ -47,7 +53,10 @@ export function buildGrid(
 } {
   const setup = SETUP[teamCount];
   const teams = TEAM_ORDER.slice(0, teamCount);
-  const jesters = Math.min(jesterCount(teamCount, riskLevel), nonTeamSlots(teamCount));
+  const jesters = Math.max(
+    0,
+    Math.min(jesterCount(teamCount, riskLevel, customJesterCount), nonTeamSlots(teamCount))
+  );
   const neutral = nonTeamSlots(teamCount) - jesters;
 
   const colors: CardColor[] = [];

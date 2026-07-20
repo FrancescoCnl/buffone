@@ -52,6 +52,7 @@ export default function CardGrid({
             viewerRole={pov}
             onReveal={game.revealCard}
             disabled={!canClick}
+            revealAll={game.phase === "over"}
             selectableForClue={selectableForClue}
             selectedForClue={selectedForClue?.has(card.id)}
             onToggleSelectForClue={() => onToggleSelectForClue?.(card.id)}

@@ -18,6 +18,11 @@ export const RISK_LEVELS: { value: RiskLevel; label: string; desc: string }[] = 
     label: "Caos",
     desc: "Tutte le carte neutre diventano Giullare — zero margine d'errore.",
   },
+  {
+    value: "personalizzato",
+    label: "Personalizzato",
+    desc: "Scegli tu quante carte Giullare inserire.",
+  },
 ];
 
 export function formatDuration(d: number | "infinito"): string {

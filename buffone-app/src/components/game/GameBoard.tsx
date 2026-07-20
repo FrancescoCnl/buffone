@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGameState } from "./useGameState";
 import Scoreboard from "./Scoreboard";
 import CluePanel from "./CluePanel";
 import CardGrid from "./CardGrid";
 import LogPanel from "./LogPanel";
+import VictoryOverlay from "./VictoryOverlay";
 import { useIsMobileLayout } from "../lobby/useIsMobileLayout";
 import { TEAM_COLOR_HEX, TEAM_LABEL, type TeamColor } from "../../types";
 import type { LobbyState } from "../lobby/useLobbyState";
@@ -36,6 +37,7 @@ export default function GameBoard({
   const game = useGameState(channel, isHost, {
     numTeams: lobby.numTeams,
     riskLevel: lobby.riskLevel,
+    customJesterCount: lobby.customJesterCount,
     clueTimer: lobby.clueTimer,
     guessTimer: lobby.guessTimer,
   });
@@ -113,6 +115,19 @@ export default function GameBoard({
   // esce dal ramo `!game.ready` qui sotto.
   const isMobile = useIsMobileLayout();
 
+  // Sovraschermata di vittoria: appare in automatico solo al momento vero
+  // della vittoria (transizione null → squadra), mai per un client che si
+  // ricollega/ricarica a partita già finita — in quel caso resta comunque
+  // disponibile cliccando il badge "Vince…" in header (vedi winnerBanner).
+  const [showVictoryOverlay, setShowVictoryOverlay] = useState(false);
+  const prevWinnerTeamId = useRef<typeof game.winnerTeamId>(null);
+  useEffect(() => {
+    if (game.winnerTeamId && !prevWinnerTeamId.current) {
+      setShowVictoryOverlay(true);
+    }
+    prevWinnerTeamId.current = game.winnerTeamId;
+  }, [game.winnerTeamId]);
+
   if (!game.ready) {
     return (
       <div
@@ -126,13 +141,27 @@ export default function GameBoard({
     );
   }
 
+  // Unico indicatore persistente di fine partita (sostituisce sia la vecchia
+  // scritta duplicata in CluePanel sia questo stesso banner statico) — clic
+  // per riaprire la sovraschermata di vittoria se l'hai già chiusa.
   const winnerBanner = game.winnerTeamId && (
-    <div className="rounded-full border border-oro bg-vinaccia px-3.5 py-1.5 text-[14px] text-crema">
+    <button
+      onClick={() => setShowVictoryOverlay(true)}
+      title="Rivedi l'annuncio di vittoria"
+      className="rounded-full border border-oro bg-vinaccia px-3.5 py-1.5 text-[14px] text-crema hover:bg-vinaccia-dark"
+    >
       🏆 Vince{" "}
       <span style={{ color: TEAM_COLOR_HEX[game.winnerTeamId] }}>
         {TEAM_LABEL[game.winnerTeamId]}
       </span>
-    </div>
+    </button>
+  );
+
+  const victoryOverlay = showVictoryOverlay && game.winnerTeamId && (
+    <VictoryOverlay
+      winnerTeamId={game.winnerTeamId}
+      onClose={() => setShowVictoryOverlay(false)}
+    />
   );
 
   const exitButton = (
@@ -226,6 +255,7 @@ export default function GameBoard({
         style={{ background: boardBackground(myTeamColor) }}
       >
         {exitConfirmDialog}
+        {victoryOverlay}
         <header className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <h1
             className="font-display text-[28px] tracking-[3px] text-oro-light"
@@ -277,6 +307,7 @@ export default function GameBoard({
       style={{ background: boardBackground(myTeamColor) }}
     >
       {exitConfirmDialog}
+      {victoryOverlay}
       <header className="mb-3.5 flex flex-shrink-0 flex-wrap items-center justify-between gap-4">
         <div className="flex items-baseline gap-3.5">
           <h1

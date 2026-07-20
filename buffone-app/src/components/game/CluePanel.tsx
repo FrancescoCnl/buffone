@@ -30,19 +30,9 @@ export default function CluePanel({
   const activeColor = TEAM_COLOR_HEX[game.activeTeam];
   const activeName = TEAM_LABEL[game.activeTeam];
 
-  if (game.winnerTeamId) {
-    return (
-      <div className="flex flex-shrink-0 items-center gap-4 rounded-xl border border-[#5a3a22] bg-[#2a160c] px-4.5 py-3.5">
-        <div className="font-display text-lg tracking-wide text-crema">
-          Partita conclusa —{" "}
-          <span style={{ color: TEAM_COLOR_HEX[game.winnerTeamId] }}>
-            {TEAM_LABEL[game.winnerTeamId]}
-          </span>{" "}
-          ha vinto!
-        </div>
-      </div>
-    );
-  }
+  // A partita conclusa l'annuncio vive nella VictoryOverlay + nel badge
+  // "Vince…" in header (GameBoard.tsx) — niente più testo duplicato qui.
+  if (game.winnerTeamId) return null;
 
   if (game.phase === "clue") {
     if (!canGiveClue) {

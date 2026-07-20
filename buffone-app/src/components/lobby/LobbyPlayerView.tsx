@@ -66,7 +66,14 @@ export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
 
           <div className="mb-3 flex flex-col gap-1.5">
             <InfoRow label="COMPAGNIE" value={String(lobby.numTeams)} />
-            <InfoRow label="RISCHIO" value={riskDef.label} />
+            <InfoRow
+              label="RISCHIO"
+              value={
+                lobby.riskLevel === "personalizzato"
+                  ? `${riskDef.label} — ${lobby.customJesterCount} Giullare`
+                  : riskDef.label
+              }
+            />
             <InfoRow
               label="TIMER INDIZIO"
               value={`${lobby.clueTimer.type === "hard" ? "Hard" : "Soft"} — ${formatDuration(

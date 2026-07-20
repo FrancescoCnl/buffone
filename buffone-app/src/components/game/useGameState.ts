@@ -18,6 +18,7 @@ const TEAM_ORDER: TeamColor[] = ["red", "blue", "green", "yellow"];
 export interface GameConfig {
   numTeams: 2 | 3 | 4;
   riskLevel: RiskLevel;
+  customJesterCount: number;
   clueTimer: TimerConfig;
   guessTimer: TimerConfig;
 }
@@ -48,7 +49,12 @@ function buildInitialState(config: GameConfig): SharedState {
   const teamIds = TEAM_ORDER.slice(0, config.numTeams);
   const turnOrder = shuffle(teamIds);
   const startingTeam = turnOrder[0];
-  const { cards, cols, rows } = buildGrid(config.numTeams, config.riskLevel, startingTeam);
+  const { cards, cols, rows } = buildGrid(
+    config.numTeams,
+    config.riskLevel,
+    startingTeam,
+    config.customJesterCount
+  );
   const teamState = {} as Record<TeamColor, TeamRuntimeState>;
   teamIds.forEach((id) => {
     teamState[id] = {

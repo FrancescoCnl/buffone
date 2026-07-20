@@ -37,6 +37,8 @@ interface CardProps {
   viewerRole: "spymaster" | "player";
   onReveal: (id: string) => void;
   disabled?: boolean;
+  /** Partita finita: i veri colori vanno mostrati a tutti, anche sulle carte mai girate. */
+  revealAll?: boolean;
   /** Capo in fase indizio: click seleziona/deseleziona la carta (solo locale, mai in rete). */
   selectableForClue?: boolean;
   selectedForClue?: boolean;
@@ -52,6 +54,7 @@ export default function Card({
   viewerRole,
   onReveal,
   disabled,
+  revealAll,
   selectableForClue,
   selectedForClue,
   onToggleSelectForClue,
@@ -72,7 +75,7 @@ export default function Card({
   const [peeking, setPeeking] = useState(false);
 
   const seenColor: CardColor =
-    viewerRole === "spymaster" || card.revealed ? card.color : "neutral";
+    viewerRole === "spymaster" || card.revealed || revealAll ? card.color : "neutral";
   const tint = TINT[seenColor];
   const confetti =
     card.resultKind === "own" ? buildConfetti(TEAM_COLOR_HEX[card.color as TeamColor]) : [];

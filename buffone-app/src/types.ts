@@ -36,7 +36,7 @@ export const TEAM_COLOR_HEX: Record<TeamColor, string> = {
 
 // --- Lobby ---
 
-export type RiskLevel = "classico" | "rischioso" | "caos";
+export type RiskLevel = "classico" | "rischioso" | "caos" | "personalizzato";
 export type TimerType = "soft" | "hard";
 export interface TimerConfig {
   type: TimerType;

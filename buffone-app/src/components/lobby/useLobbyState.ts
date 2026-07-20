@@ -7,6 +7,7 @@ import type {
   YouState,
 } from "../../types";
 import { PRESENCE_LEAVE, type RoomChannel } from "../../hooks/useRoomChannel";
+import { nonTeamSlots } from "../../data/mockGame";
 
 function buildTeams(n: number, prev: LobbyTeam[]): LobbyTeam[] {
   const out: LobbyTeam[] = [];
@@ -28,6 +29,7 @@ interface SharedState {
   numTeams: 2 | 3 | 4;
   teams: LobbyTeam[];
   riskLevel: RiskLevel;
+  customJesterCount: number;
   clueTimer: TimerConfig;
   guessTimer: TimerConfig;
   started: boolean;
@@ -38,6 +40,7 @@ function initialShared(defaultNumTeams: 2 | 3 | 4): SharedState {
     numTeams: defaultNumTeams,
     teams: buildTeams(defaultNumTeams, []),
     riskLevel: "classico",
+    customJesterCount: 1,
     clueTimer: { type: "soft", duration: "infinito" },
     guessTimer: { type: "soft", duration: "infinito" },
     started: false,
@@ -51,6 +54,7 @@ type Action =
   | { type: "BECOME_CAPO"; teamId: number; actorId: string; actorName: string }
   | { type: "BACK_TO_PLAYER"; teamId: number; actorId: string }
   | { type: "SET_RISK"; risk: RiskLevel }
+  | { type: "SET_CUSTOM_JESTER_COUNT"; count: number }
   | { type: "SET_CLUE_TIMER_TYPE"; timerType: TimerType }
   | { type: "SET_CLUE_DURATION"; duration: number | "infinito" }
   | { type: "SET_GUESS_TIMER_TYPE"; timerType: TimerType }
@@ -58,10 +62,23 @@ type Action =
   | { type: "START_GAME" }
   | { type: "END_GAME" };
 
+// Il tetto delle carte Giullare personalizzate dipende dal numero di
+// Compagnie (gli slot non-di-squadra variano con la griglia) — va quindi
+// ricalcolato ogni volta che cambia customJesterCount o numTeams, non solo
+// applicato una volta in UI.
+function clampCustomJesterCount(count: number, numTeams: 2 | 3 | 4): number {
+  return Math.max(0, Math.min(count, nonTeamSlots(numTeams)));
+}
+
 function reduce(s: SharedState, a: Action): SharedState {
   switch (a.type) {
     case "SET_NUM_TEAMS":
-      return { ...s, numTeams: a.n, teams: buildTeams(a.n, s.teams) };
+      return {
+        ...s,
+        numTeams: a.n,
+        teams: buildTeams(a.n, s.teams),
+        customJesterCount: clampCustomJesterCount(s.customJesterCount, a.n),
+      };
 
     case "JOIN_TEAM": {
       const cleared = removePlayerEverywhere(s.teams, a.actorId);
@@ -102,6 +119,8 @@ function reduce(s: SharedState, a: Action): SharedState {
 
     case "SET_RISK":
       return { ...s, riskLevel: a.risk };
+    case "SET_CUSTOM_JESTER_COUNT":
+      return { ...s, customJesterCount: clampCustomJesterCount(a.count, s.numTeams) };
     case "SET_CLUE_TIMER_TYPE":
       return { ...s, clueTimer: { ...s.clueTimer, type: a.timerType } };
     case "SET_CLUE_DURATION":
@@ -219,6 +238,8 @@ export function useLobbyState(
     teams,
     you,
     riskLevel: shared.riskLevel,
+    customJesterCount: shared.customJesterCount,
+    maxCustomJesterCount: nonTeamSlots(shared.numTeams),
     clueTimer: shared.clueTimer,
     guessTimer: shared.guessTimer,
     started: shared.started,
@@ -227,6 +248,7 @@ export function useLobbyState(
     everyoneAssigned,
     setNumTeams: (n: 2 | 3 | 4) => dispatch({ type: "SET_NUM_TEAMS", n }),
     setRiskLevel: (risk: RiskLevel) => dispatch({ type: "SET_RISK", risk }),
+    setCustomJesterCount: (count: number) => dispatch({ type: "SET_CUSTOM_JESTER_COUNT", count }),
     setClueTimerType: (timerType: TimerType) => dispatch({ type: "SET_CLUE_TIMER_TYPE", timerType }),
     setClueDuration: (duration: number | "infinito") =>
       dispatch({ type: "SET_CLUE_DURATION", duration }),
