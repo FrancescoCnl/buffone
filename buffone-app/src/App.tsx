@@ -38,7 +38,7 @@ export default function App() {
     room?.playerName ?? "",
     room?.isHost ?? false
   );
-  const lobby = useLobbyState(channel, playerId, room?.playerName ?? "", room?.isHost ?? false, 3);
+  const lobby = useLobbyState(channel, playerId, room?.playerName ?? "", room?.isHost ?? false, 2);
 
   // `lobby.started` è l'unica sorgente di verità per "siamo in partita o in
   // lobby" — sincronizzata in rete, quindi vale per tutti i client allo

@@ -201,7 +201,7 @@ export default function Card({
             className="absolute inset-0 mix-blend-multiply"
             style={{ background: tint, opacity: seenColor === "neutral" ? 0.08 : 0.55 }}
           />
-          <div className="absolute inset-0 flex items-center justify-center p-[15%]">
+          <div className="absolute inset-0 flex items-center justify-center p-[6%]">
             <img
               src={card.illustration}
               alt=""

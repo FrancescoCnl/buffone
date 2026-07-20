@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regole del gioco — Buffone</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem 4rem;
+        line-height: 1.6;
+        color: #2c2c2a;
+        background: #faeeda;
+      }
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.25rem;
+      }
+      .subtitle {
+        color: #6b5a45;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+      h2 {
+        font-size: 1.15rem;
+        margin-top: 2.2rem;
+        border-bottom: 2px solid #ba7517;
+        padding-bottom: 0.3rem;
+      }
+      a {
+        color: #712b13;
+      }
+      code {
+        background: rgba(0, 0, 0, 0.06);
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      .card-legend {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .card-legend li {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.04);
+      }
+      .swatch {
+        display: inline-block;
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 50%;
+        flex: none;
+        border: 2px solid rgba(0, 0, 0, 0.3);
+      }
+      .swatch.own { background: #a6332b; }
+      .swatch.other { background: #2e5c82; }
+      .swatch.neutral { background: #faeeda; }
+      .swatch.jester { background: #2c2c2a; }
+      .back {
+        display: inline-block;
+        margin-top: 3rem;
+        font-size: 0.9rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #2c2c2a;
+          color: #faeeda;
+        }
+        .subtitle {
+          color: #c9b89a;
+        }
+        a {
+          color: #d99c3f;
+        }
+        code {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .card-legend li {
+          background: rgba(255, 255, 255, 0.06);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📖 Regole del gioco — Buffone</h1>
+    <p class="subtitle">Il libretto d'istruzioni, per chi gioca la prima volta (o non ricorda bene).</p>
+
+    <h2>L'obiettivo</h2>
+    <p>
+      I giocatori si dividono in Compagnie (squadre). Sul tavolo ci sono 25 carte-parola: alcune
+      appartengono alla tua Compagnia, altre alle Compagnie avversarie, alcune sono neutre, e una o più
+      sono carte <strong>Giullare</strong> (vedi sotto — sono pericolose). Vince la prima Compagnia che
+      riesce a far indovinare tutte le proprie carte.
+    </p>
+
+    <h2>I due ruoli in ogni Compagnia</h2>
+    <p>
+      Ogni Compagnia ha un <strong>Capo</strong> e uno o più <strong>Artisti</strong>:
+    </p>
+    <ul>
+      <li>
+        Il <strong>Capo</strong> è l'unico che vede il vero colore di tutte le 25 carte. Il suo compito è
+        dare indizi per far indovinare ai propri Artisti quali carte appartengono alla propria Compagnia,
+        senza mai pronunciare le parole scritte sulle carte.
+      </li>
+      <li>
+        Gli <strong>Artisti</strong> vedono solo le parole, non i colori veri. Ascoltano l'indizio del
+        proprio Capo e provano a indovinare girando le carte che pensano siano della propria Compagnia.
+      </li>
+    </ul>
+
+    <h2>Come funziona un turno</h2>
+    <p>Ogni turno si divide in due fasi, una dopo l'altra:</p>
+    <ol>
+      <li>
+        <strong>Fase indizio</strong> — il Capo della Compagnia in turno dà una parola-indizio e un numero
+        (es. "Frutta, 2"): il numero indica quante carte, secondo il Capo, sono collegate a
+        quell'indizio. L'indizio non può mai essere una parola già presente sulla griglia (o una sua
+        variante ovvia).
+      </li>
+      <li>
+        <strong>Fase indovinamento</strong> — gli Artisti della stessa Compagnia discutono e girano le
+        carte che pensano siano corrette, una alla volta. Possono girarne al massimo una in più del
+        numero dato dal Capo (es. con "2" si possono tentare fino a 3 carte), oppure passare il turno in
+        qualsiasi momento se non sono sicuri.
+      </li>
+    </ol>
+
+    <h2>Cosa succede quando si gira una carta</h2>
+    <ul class="card-legend">
+      <li>
+        <span class="swatch own"></span>
+        <span><strong>Carta della propria Compagnia</strong> — ottima: si avvicina alla vittoria. Se non
+        si è ancora esaurito il numero di tentativi concessi dall'indizio, si può continuare a
+        indovinare.</span>
+      </li>
+      <li>
+        <span class="swatch other"></span>
+        <span><strong>Carta di una Compagnia avversaria</strong> — errore: aiuta involontariamente
+        l'avversario (la sua carta viene comunque tolta dal gioco per lui) e il turno passa
+        immediatamente.</span>
+      </li>
+      <li>
+        <span class="swatch neutral"></span>
+        <span><strong>Carta neutra</strong> — non è di nessuno: il turno passa alla Compagnia
+        successiva, senza altre conseguenze.</span>
+      </li>
+      <li>
+        <span class="swatch jester"></span>
+        <span><strong>Carta Giullare</strong> — la più pericolosa del mazzo: se la propria Compagnia la
+        gira, viene <strong>eliminata immediatamente</strong> dalla partita. Tutte le sue carte non ancora
+        scoperte diventano neutre (restano sul tavolo ma non contano più per nessuno) e il turno passa
+        alla Compagnia successiva.</span>
+      </li>
+    </ul>
+
+    <h2>Quante carte Giullare ci sono? (Livello di rischio)</h2>
+    <p>Il capo-lobby sceglie, prima di iniziare, quante carte Giullare sono in gioco:</p>
+    <ul>
+      <li><strong>Classico</strong> — 1 sola carta Giullare: equilibrato, ideale per chi gioca la prima volta.</li>
+      <li><strong>Rischioso</strong> — 3 carte Giullare: più tensione, più probabilità che qualche Compagnia venga eliminata.</li>
+      <li><strong>Caos</strong> — tutte le carte neutre diventano Giullare: quasi zero margine d'errore, solo per chi conosce già bene il gioco.</li>
+    </ul>
+
+    <h2>I timer</h2>
+    <p>
+      Ogni fase (indizio e indovinamento) ha un proprio timer, impostabile dal capo-lobby prima di
+      iniziare:
+    </p>
+    <ul>
+      <li>
+        <strong>Soft</strong> — il tempo scorre solo a titolo indicativo: allo scadere non succede nulla
+        di automatico, la fase può continuare finché non si agisce (dare l'indizio, girare una carta o
+        passare il turno).
+      </li>
+      <li>
+        <strong>Hard</strong> — allo scadere del tempo il turno passa forzatamente alla Compagnia
+        successiva, anche senza aver dato l'indizio o finito di indovinare.
+      </li>
+    </ul>
+
+    <h2>Come si vince</h2>
+    <p>Una Compagnia vince quando succede una di queste due cose:</p>
+    <ul>
+      <li>Fa girare tutte le proprie carte prima di chiunque altro.</li>
+      <li>È l'unica Compagnia rimasta in gioco, perché tutte le altre sono state eliminate girando una carta Giullare.</li>
+    </ul>
+
+    <a class="back" href="/">← Torna al gioco</a>
+  </body>
+</html>

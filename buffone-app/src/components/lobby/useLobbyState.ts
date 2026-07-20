@@ -38,7 +38,7 @@ function initialShared(defaultNumTeams: 2 | 3 | 4): SharedState {
     numTeams: defaultNumTeams,
     teams: buildTeams(defaultNumTeams, []),
     riskLevel: "classico",
-    clueTimer: { type: "hard", duration: 90 },
+    clueTimer: { type: "soft", duration: "infinito" },
     guessTimer: { type: "soft", duration: "infinito" },
     started: false,
   };

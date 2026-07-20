@@ -19,7 +19,7 @@ export function useIsMobileLayout(): boolean {
 }
 
 const CORNER_MAPS: Record<number, string[]> = {
-  2: ["tl", "br"],
+  2: ["tl", "tr"],
   3: ["tl", "tr", "bl"],
   4: ["tl", "tr", "bl", "br"],
 };

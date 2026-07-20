@@ -99,14 +99,24 @@ export default function RoomEntry({
         </div>
       )}
 
-      <a
-        href="/privacy.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-2 font-serif text-[11.5px] text-crema/40 hover:text-crema/70"
-      >
-        Privacy Policy
-      </a>
+      <div className="mt-2 flex items-center gap-3">
+        <a
+          href="/regole.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-serif text-[11.5px] text-crema/40 hover:text-crema/70"
+        >
+          📖 Regole del gioco
+        </a>
+        <a
+          href="/privacy.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-serif text-[11.5px] text-crema/40 hover:text-crema/70"
+        >
+          Privacy Policy
+        </a>
+      </div>
     </div>
   );
 }

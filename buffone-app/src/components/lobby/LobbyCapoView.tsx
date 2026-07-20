@@ -53,13 +53,21 @@ export default function LobbyCapoView({
         <p className="mt-0.5 text-[12px] uppercase tracking-[2.5px] text-oro-light">
           Lobby pre-partita — Regole dello spettacolo
         </p>
+        <a
+          href="/regole.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 inline-block font-serif text-[11.5px] text-oro-light/70 hover:text-oro-light"
+        >
+          📖 Regole del gioco
+        </a>
       </header>
 
       <div
         className={
           isMobile
             ? "relative mx-auto mb-5 w-[92%] max-w-[420px]"
-            : "absolute left-1/2 top-[100px] w-[360px] -translate-x-1/2"
+            : "absolute left-1/2 top-[122px] w-[360px] -translate-x-1/2"
         }
       >
         <div className="rounded-md border-[3px] border-oro bg-crema p-[18px_22px] shadow-[0_12px_32px_rgba(0,0,0,0.35)]">

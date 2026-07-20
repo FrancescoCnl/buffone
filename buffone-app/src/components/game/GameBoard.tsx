@@ -144,6 +144,17 @@ export default function GameBoard({
     </button>
   );
 
+  const rulesLink = (
+    <a
+      href="/regole.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="rounded-lg border border-oro/50 px-3 py-2 font-display text-[13px] tracking-wide text-oro-light/70 hover:bg-oro/10 hover:text-oro-light"
+    >
+      📖 Regole
+    </a>
+  );
+
   // Indicatore fisso della propria Compagnia, sempre visibile in header —
   // deciso il 2026-07-20 dopo un playtest in cui era difficile
   // ricordarsi la propria squadra durante la partita.
@@ -222,7 +233,10 @@ export default function GameBoard({
           >
             BUFFONE
           </h1>
-          {exitButton}
+          <div className="flex items-center gap-2">
+            {rulesLink}
+            {exitButton}
+          </div>
         </header>
         {myTeamBadge && <div className="mb-3">{myTeamBadge}</div>}
         {winnerBanner && <div className="mb-3">{winnerBanner}</div>}
@@ -274,7 +288,10 @@ export default function GameBoard({
           {myTeamBadge}
           {winnerBanner}
         </div>
-        {exitButton}
+        <div className="flex items-center gap-2">
+          {rulesLink}
+          {exitButton}
+        </div>
       </header>
 
       <div className="grid h-[calc(100%-64px)] grid-cols-[148px_1fr_168px] gap-2.5">
