@@ -31,10 +31,18 @@ export default function TeamCard({
 
   return (
     <div className={className}>
-      <div className="rounded-md border-[3px] border-oro bg-crema p-3.5 text-inchiostro shadow-[0_10px_26px_rgba(0,0,0,0.3)]">
+      <div
+        className="rounded-md border-[3px] bg-crema p-3.5 text-inchiostro shadow-[0_10px_26px_rgba(0,0,0,0.3)]"
+        style={{
+          borderColor: youInTeam ? TEAM_COLOR_HEX[color] : "#C99A2E",
+          boxShadow: youInTeam
+            ? `0 10px 26px rgba(0,0,0,0.3), 0 0 0 3px ${TEAM_COLOR_HEX[color]}55`
+            : undefined,
+        }}
+      >
         <div className="mb-2.5 flex items-center gap-2">
           <span
-            className="h-3.5 w-3.5 flex-none rounded-full border-2 border-inchiostro"
+            className="h-5 w-5 flex-none rounded-full border-2 border-inchiostro"
             style={{ background: TEAM_COLOR_HEX[color] }}
           />
           <span className="font-display text-[17px] tracking-wide text-vinaccia">
@@ -49,6 +57,15 @@ export default function TeamCard({
             </button>
           )}
         </div>
+
+        {youInTeam && (
+          <div
+            className="mb-2.5 rounded px-2 py-1 text-center font-serif text-[11px] font-bold tracking-wide text-crema"
+            style={{ background: TEAM_COLOR_HEX[color] }}
+          >
+            LA TUA COMPAGNIA
+          </div>
+        )}
 
         {!youInTeam && (
           <button

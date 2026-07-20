@@ -13,6 +13,15 @@ import type { CardNote } from "../Card";
 const BG_GRADIENT = "radial-gradient(ellipse at 50% 0%, #3a1a0e 0%, #1c0f08 70%)";
 const TEAM_ORDER: TeamColor[] = ["red", "blue", "green", "yellow"];
 
+// Sfondo tinto col colore della propria Compagnia — deciso il
+// 2026-07-20 dopo un playtest in cui era difficile ricordarsi la propria
+// squadra durante la partita. Il radial di base resta identico, si aggiunge
+// solo un secondo layer radiale col colore della squadra molto attenuato.
+function boardBackground(myColor: TeamColor | null): string {
+  if (!myColor) return BG_GRADIENT;
+  return `radial-gradient(ellipse at 50% 0%, ${TEAM_COLOR_HEX[myColor]}33 0%, transparent 60%), ${BG_GRADIENT}`;
+}
+
 export default function GameBoard({
   lobby,
   channel,
@@ -135,6 +144,24 @@ export default function GameBoard({
     </button>
   );
 
+  // Indicatore fisso della propria Compagnia, sempre visibile in header —
+  // deciso il 2026-07-20 dopo un playtest in cui era difficile
+  // ricordarsi la propria squadra durante la partita.
+  const myTeamBadge = myTeamColor && (
+    <div
+      className="flex items-center gap-1.5 rounded-full border-2 px-3 py-1"
+      style={{ borderColor: TEAM_COLOR_HEX[myTeamColor], background: `${TEAM_COLOR_HEX[myTeamColor]}33` }}
+    >
+      <span
+        className="h-3 w-3 flex-none rounded-full"
+        style={{ background: TEAM_COLOR_HEX[myTeamColor] }}
+      />
+      <span className="font-serif text-[12.5px] tracking-wide text-crema">
+        La tua Compagnia: <strong>{TEAM_LABEL[myTeamColor]}</strong>
+      </span>
+    </div>
+  );
+
   // Chiude la partita per TUTTI i giocatori, non solo per chi clicca —
   // deciso il 2026-07-15. Con conferma perché è un'azione
   // distruttiva per l'intero tavolo, non solo per chi la esegue.
@@ -185,7 +212,7 @@ export default function GameBoard({
     return (
       <div
         className="relative min-h-screen overflow-auto p-3 text-crema"
-        style={{ background: BG_GRADIENT }}
+        style={{ background: boardBackground(myTeamColor) }}
       >
         {exitConfirmDialog}
         <header className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -197,8 +224,9 @@ export default function GameBoard({
           </h1>
           {exitButton}
         </header>
+        {myTeamBadge && <div className="mb-3">{myTeamBadge}</div>}
         {winnerBanner && <div className="mb-3">{winnerBanner}</div>}
-        <Scoreboard game={game} isMobile />
+        <Scoreboard game={game} isMobile myTeamColor={myTeamColor} />
         <div className="mt-3">
           <CluePanel
             game={game}
@@ -232,7 +260,7 @@ export default function GameBoard({
   return (
     <div
       className="relative h-screen w-screen overflow-hidden p-3.5 text-crema"
-      style={{ background: BG_GRADIENT }}
+      style={{ background: boardBackground(myTeamColor) }}
     >
       {exitConfirmDialog}
       <header className="mb-3.5 flex flex-shrink-0 flex-wrap items-center justify-between gap-4">
@@ -243,13 +271,14 @@ export default function GameBoard({
           >
             BUFFONE
           </h1>
+          {myTeamBadge}
           {winnerBanner}
         </div>
         {exitButton}
       </header>
 
       <div className="grid h-[calc(100%-64px)] grid-cols-[148px_1fr_168px] gap-2.5">
-        <Scoreboard game={game} />
+        <Scoreboard game={game} myTeamColor={myTeamColor} />
         <div className="flex min-h-0 flex-col gap-3">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex-1">
