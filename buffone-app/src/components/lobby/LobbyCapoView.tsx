@@ -63,7 +63,7 @@ export default function LobbyCapoView({
             rel="noopener noreferrer"
             className="inline-block rounded-lg border border-oro/50 px-3 py-1.5 font-display text-[12px] tracking-wide text-oro-light/80 hover:bg-oro/10 hover:text-oro-light"
           >
-            📖 Regole del gioco
+            📖 Come si gioca
           </a>
           <RoomCodeBadge code={code} />
         </div>

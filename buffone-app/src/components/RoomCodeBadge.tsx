@@ -9,7 +9,7 @@ const CENSORED_MASK = "•••••";
  * copiarlo negli appunti — deciso il 2026-07-16.
  *
  * Sempre in-flow (non più `fixed`), montato dentro l'header della lobby
- * insieme al link "Regole del gioco": prima viveva da solo, `fixed` in fondo
+ * insieme al link "Come si gioca": prima viveva da solo, `fixed` in fondo
  * allo schermo, e finiva sovrapposto al pannello regole quando quest'ultimo
  * cresceva in altezza (emerso in playtest il 2026-07-22) — l'header è
  * l'unica fascia della lobby non contesa dagli angoli delle Compagnie né dal

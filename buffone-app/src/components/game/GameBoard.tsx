@@ -237,7 +237,7 @@ export default function GameBoard({
       rel="noopener noreferrer"
       className="rounded-lg border border-oro/50 px-3 py-2 font-display text-[13px] tracking-wide text-oro-light/70 hover:bg-oro/10 hover:text-oro-light"
     >
-      📖 Regole
+      📖 Come si gioca
     </a>
   );
 

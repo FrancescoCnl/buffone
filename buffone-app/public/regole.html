@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Regole del gioco — Buffone</title>
+    <title>Come si gioca — Buffone</title>
     <style>
       :root {
         color-scheme: light dark;
@@ -41,6 +41,24 @@
         border-radius: 4px;
         font-size: 0.9em;
       }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        font-size: 0.92rem;
+      }
+      th, td {
+        text-align: left;
+        padding: 0.5rem 0.6rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      }
+      th {
+        color: #6b5a45;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
       .card-legend {
         list-style: none;
         padding: 0;
@@ -64,6 +82,7 @@
         border-radius: 50%;
         flex: none;
         border: 2px solid rgba(0, 0, 0, 0.3);
+        margin-top: 0.3rem;
       }
       .swatch.own { background: #a6332b; }
       .swatch.other { background: #2e5c82; }
@@ -88,6 +107,12 @@
         code {
           background: rgba(255, 255, 255, 0.1);
         }
+        th {
+          color: #c9b89a;
+        }
+        th, td {
+          border-bottom-color: rgba(255, 255, 255, 0.12);
+        }
         .card-legend li {
           background: rgba(255, 255, 255, 0.06);
         }
@@ -95,47 +120,65 @@
     </style>
   </head>
   <body>
-    <h1>📖 Regole del gioco — Buffone</h1>
-    <p class="subtitle">Il libretto d'istruzioni, per chi gioca la prima volta (o non ricorda bene).</p>
+    <h1>Come si gioca — Buffone</h1>
+    <p class="subtitle">Regolamento completo.</p>
 
     <h2>L'obiettivo</h2>
     <p>
-      I giocatori si dividono in Compagnie (squadre). Sul tavolo ci sono 25 carte-parola: alcune
-      appartengono alla tua Compagnia, altre alle Compagnie avversarie, alcune sono neutre, e una o più
-      sono carte <strong>Giullare</strong> (vedi sotto — sono pericolose). Vince la prima Compagnia che
-      riesce a far indovinare tutte le proprie carte.
+      I giocatori si dividono in Compagnie (squadre). Ogni carta della griglia appartiene a una
+      Compagnia, è neutra, oppure è una carta <strong>Giullare</strong> (vedi sotto). Vince la prima
+      Compagnia che fa scoprire tutte le proprie carte, oppure l'ultima rimasta in gioco se le altre
+      vengono eliminate.
+    </p>
+    <p>
+      La dimensione della griglia dipende dal numero di Compagnie in partita, deciso prima di iniziare
+      e fisso per tutta la durata della partita:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Compagnie</th><th>Carte totali</th><th>Per Compagnia</th><th>Neutre</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2</td><td>25 (5×5)</td><td>8 (9 per chi parte)</td><td>7</td></tr>
+        <tr><td>3</td><td>30 (6×5)</td><td>8 (9 per chi parte)</td><td>4</td></tr>
+        <tr><td>4</td><td>35 (7×5)</td><td>7 (8 per chi parte)</td><td>5</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Chi gioca per primo ha una carta in più delle altre Compagnie, per compensare lo svantaggio di
+      muovere prima degli altri. I numeri di questa tabella sono quelli del Livello di Rischio
+      "Classico" (1 carta Giullare); vedi più sotto come cambiano con gli altri livelli.
     </p>
 
     <h2>I due ruoli in ogni Compagnia</h2>
-    <p>
-      Ogni Compagnia ha un <strong>Capo</strong> e uno o più <strong>Artisti</strong>:
-    </p>
+    <p>Ogni Compagnia ha esattamente un <strong>Capo</strong> e uno o più <strong>Artisti</strong>:</p>
     <ul>
       <li>
-        Il <strong>Capo</strong> è l'unico che vede il vero colore di tutte le 25 carte. Il suo compito è
-        dare indizi per far indovinare ai propri Artisti quali carte appartengono alla propria Compagnia,
-        senza mai pronunciare le parole scritte sulle carte.
+        Il <strong>Capo</strong> è l'unico che vede il vero colore di ogni carta della griglia. Dà
+        indizi per far indovinare agli Artisti quali carte appartengono alla propria Compagnia, senza
+        mai pronunciare una parola già presente sulla griglia (o una sua variante evidente).
       </li>
       <li>
-        Gli <strong>Artisti</strong> vedono solo le parole, non i colori veri. Ascoltano l'indizio del
-        proprio Capo e provano a indovinare girando le carte che pensano siano della propria Compagnia.
+        Gli <strong>Artisti</strong> vedono solo le parole, mai i colori veri finché una carta non
+        viene girata. Ascoltano l'indizio del proprio Capo e decidono insieme quali carte girare.
       </li>
     </ul>
 
     <h2>Come funziona un turno</h2>
-    <p>Ogni turno si divide in due fasi, una dopo l'altra:</p>
     <ol>
       <li>
-        <strong>Fase indizio</strong> — il Capo della Compagnia in turno dà una parola-indizio e un numero
-        (es. "Frutta, 2"): il numero indica quante carte, secondo il Capo, sono collegate a
-        quell'indizio. L'indizio non può mai essere una parola già presente sulla griglia (o una sua
-        variante ovvia).
+        <strong>Fase indizio</strong> — il Capo della Compagnia in turno dà una parola-indizio e un
+        numero (es. "Frutta, 2"). Il numero indica quante carte, secondo il Capo, sono collegate
+        all'indizio. Ci sono due valori speciali: <strong>0</strong> e <strong>∞</strong> non
+        dichiarano nessun collegamento diretto, ma permettono di girare carte senza limite di
+        tentativi. L'indizio è visibile a tutte le Compagnie, non solo a quella in turno.
       </li>
       <li>
-        <strong>Fase indovinamento</strong> — gli Artisti della stessa Compagnia discutono e girano le
-        carte che pensano siano corrette, una alla volta. Possono girarne al massimo una in più del
-        numero dato dal Capo (es. con "2" si possono tentare fino a 3 carte), oppure passare il turno in
-        qualsiasi momento se non sono sicuri.
+        <strong>Fase indovinamento</strong> — gli Artisti della Compagnia in turno girano le carte che
+        pensano siano corrette, una alla volta: la prima cliccata conta subito, senza conferma. Con un
+        numero N si può girare al massimo N+1 carte proprie di fila prima che il turno finisca comunque
+        (es. con "2" si arriva fino a 3). In qualsiasi momento la Compagnia può fermarsi e passare il
+        turno volontariamente, invece di continuare a indovinare.
       </li>
     </ol>
 
@@ -143,61 +186,55 @@
     <ul class="card-legend">
       <li>
         <span class="swatch own"></span>
-        <span><strong>Carta della propria Compagnia</strong> — ottima: si avvicina alla vittoria. Se non
-        si è ancora esaurito il numero di tentativi concessi dall'indizio, si può continuare a
-        indovinare.</span>
+        <span><strong>Carta della propria Compagnia</strong> — il turno continua: si può girare
+        un'altra carta (fino al limite di tentativi) o fermarsi volontariamente.</span>
       </li>
       <li>
         <span class="swatch other"></span>
-        <span><strong>Carta di una Compagnia avversaria</strong> — errore: aiuta involontariamente
-        l'avversario (la sua carta viene comunque tolta dal gioco per lui) e il turno passa
-        immediatamente.</span>
+        <span><strong>Carta di un'altra Compagnia</strong> — il turno finisce subito e passa alla
+        Compagnia successiva nell'ordine di turno, che non è necessariamente quella a cui apparteneva
+        la carta girata. Quella carta conta comunque come trovata per la Compagnia a cui appartiene
+        davvero.</span>
       </li>
       <li>
         <span class="swatch neutral"></span>
-        <span><strong>Carta neutra</strong> — non è di nessuno: il turno passa alla Compagnia
-        successiva, senza altre conseguenze.</span>
+        <span><strong>Carta neutra</strong> — il turno finisce subito e passa alla Compagnia
+        successiva, senza altri effetti.</span>
       </li>
       <li>
         <span class="swatch jester"></span>
-        <span><strong>Carta Giullare</strong> — la più pericolosa del mazzo: se la propria Compagnia la
-        gira, viene <strong>eliminata immediatamente</strong> dalla partita. Tutte le sue carte non ancora
-        scoperte diventano neutre (restano sul tavolo ma non contano più per nessuno) e il turno passa
-        alla Compagnia successiva.</span>
+        <span><strong>Carta Giullare</strong> — la Compagnia che la gira viene eliminata subito dalla
+        partita. Le sue carte non ancora scoperte diventano neutre per il resto della partita (restano
+        in tavola ma non contano più per nessuno) e il turno passa alla Compagnia successiva. Sulla
+        carta non compare mai la scritta "Giullare": solo la chiave del Capo la identifica come tale,
+        prima che venga girata.</span>
       </li>
     </ul>
 
-    <h2>Quante carte Giullare ci sono? (Livello di rischio)</h2>
-    <p>Il capo-lobby sceglie, prima di iniziare, quante carte Giullare sono in gioco:</p>
+    <h2>Livello di Rischio — quante carte Giullare</h2>
+    <p>Il capo-lobby lo sceglie prima di iniziare, tra quattro opzioni:</p>
     <ul>
-      <li><strong>Classico</strong> — 1 sola carta Giullare: equilibrato, ideale per chi gioca la prima volta.</li>
-      <li><strong>Rischioso</strong> — 3 carte Giullare: più tensione, più probabilità che qualche Compagnia venga eliminata.</li>
-      <li><strong>Caos</strong> — tutte le carte neutre diventano Giullare: quasi zero margine d'errore, solo per chi conosce già bene il gioco.</li>
-      <li><strong>Personalizzato</strong> — il capo-lobby sceglie a mano quante carte Giullare inserire, fino al massimo consentito dal numero di Compagnie.</li>
+      <li><strong>Classico</strong> — 1 carta Giullare.</li>
+      <li><strong>Rischioso</strong> — 3 carte Giullare.</li>
+      <li><strong>Caos</strong> — tutte le carte neutre diventano Giullare: non resta margine d'errore al di fuori delle carte di Compagnia.</li>
+      <li><strong>Personalizzato</strong> — il capo-lobby sceglie a mano quante carte Giullare inserire, fino al massimo consentito dal numero di Compagnie in gioco.</li>
     </ul>
+    <p>
+      Le carte Giullare aggiuntive sostituiscono carte neutre: la dimensione della griglia e il numero
+      di carte per Compagnia non cambiano mai in base al Livello di Rischio.
+    </p>
 
     <h2>I timer</h2>
-    <p>
-      Ogni fase (indizio e indovinamento) ha un proprio timer, impostabile dal capo-lobby prima di
-      iniziare:
-    </p>
+    <p>Le due fasi del turno hanno ciascuna un proprio timer, impostato dal capo-lobby prima di iniziare:</p>
     <ul>
-      <li>
-        <strong>Soft</strong> — il tempo scorre solo a titolo indicativo: allo scadere non succede nulla
-        di automatico, la fase può continuare finché non si agisce (dare l'indizio, girare una carta o
-        passare il turno).
-      </li>
-      <li>
-        <strong>Hard</strong> — allo scadere del tempo il turno passa forzatamente alla Compagnia
-        successiva, anche senza aver dato l'indizio o finito di indovinare.
-      </li>
+      <li><strong>Soft</strong> — il conto alla rovescia è visibile ma allo scadere non succede nulla in automatico.</li>
+      <li><strong>Hard</strong> — allo scadere, il turno passa forzatamente alla Compagnia successiva, anche senza indizio dato o senza aver finito di indovinare.</li>
     </ul>
 
     <h2>Come si vince</h2>
-    <p>Una Compagnia vince quando succede una di queste due cose:</p>
     <ul>
-      <li>Fa girare tutte le proprie carte prima di chiunque altro.</li>
-      <li>È l'unica Compagnia rimasta in gioco, perché tutte le altre sono state eliminate girando una carta Giullare.</li>
+      <li>Una Compagnia trova tutte le proprie carte rimaste sulla griglia, oppure</li>
+      <li>resta l'unica Compagnia ancora in gioco, perché tutte le altre sono state eliminate girando una carta Giullare — anche se non ha ancora trovato tutte le proprie carte.</li>
     </ul>
 
     <a class="back" href="/">← Torna al gioco</a>

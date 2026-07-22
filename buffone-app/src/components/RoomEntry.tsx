@@ -106,7 +106,7 @@ export default function RoomEntry({
           rel="noopener noreferrer"
           className="font-serif text-[11.5px] text-crema/40 hover:text-crema/70"
         >
-          📖 Regole del gioco
+          📖 Come si gioca
         </a>
         <a
           href="/privacy.html"
