@@ -1,5 +1,6 @@
 import { useIsMobileLayout, cornerClassName } from "./useIsMobileLayout";
 import TeamCard from "./TeamCard";
+import RoomCodeBadge from "../RoomCodeBadge";
 import { DURATIONS, RISK_LEVELS, formatDuration } from "../../data/lobbyOptions";
 import type { TeamColor } from "../../types";
 import { TEAM_LABEL } from "../../types";
@@ -16,9 +17,11 @@ function segClass(active: boolean) {
 export default function LobbyCapoView({
   lobby,
   onStart,
+  code,
 }: {
   lobby: LobbyState;
   onStart: () => void;
+  code: string;
 }) {
   const isMobile = useIsMobileLayout();
 
@@ -36,7 +39,7 @@ export default function LobbyCapoView({
       className={
         isMobile
           ? "relative min-h-screen overflow-auto px-3 pb-12 pt-5 text-inchiostro"
-          : "relative h-screen w-screen overflow-hidden text-inchiostro"
+          : "flex h-screen w-screen flex-col overflow-hidden text-inchiostro"
       }
       style={{
         background:
@@ -53,32 +56,40 @@ export default function LobbyCapoView({
         <p className="mt-0.5 text-[12px] uppercase tracking-[2.5px] text-oro-light">
           Lobby pre-partita — Regole dello spettacolo
         </p>
-        <a
-          href="/regole.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-block rounded-lg border border-oro/50 px-3 py-1.5 font-display text-[12px] tracking-wide text-oro-light/80 hover:bg-oro/10 hover:text-oro-light"
-        >
-          📖 Regole del gioco
-        </a>
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+          <a
+            href="/regole.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-lg border border-oro/50 px-3 py-1.5 font-display text-[12px] tracking-wide text-oro-light/80 hover:bg-oro/10 hover:text-oro-light"
+          >
+            📖 Regole del gioco
+          </a>
+          <RoomCodeBadge code={code} />
+        </div>
       </header>
 
       <div
         className={
           isMobile
             ? "relative mx-auto mb-5 w-[92%] max-w-[420px]"
-            : "absolute left-1/2 top-[122px] w-[360px] -translate-x-1/2"
+            : "flex min-h-0 flex-1 items-center justify-center py-3"
         }
       >
-        {/* max-h + overflow-y-auto: il numero di controlli qui dentro può
+        {/* max-h-full + overflow-y-auto: il numero di controlli qui dentro può
             crescere (es. lo stepper "Personalizzato" o un messaggio "Non
-            pronti" su due righe) — senza un tetto il pannello finiva per
-            sconfinare sotto al badge fisso della stanza, coprendo l'ultima
-            riga di testo (emerso in playtest il 2026-07-20). Con lo scroll
-            interno il pannello non supera mai la zona riservata al badge. */}
+            pronti" su due righe). Prima il pannello era `absolute` con un
+            `top` in pixel fisso tarato sull'altezza dell'header di allora —
+            quando l'header è cresciuto (badge stanza spostato qui dentro, vedi
+            RoomCodeBadge) il pannello è rimasto ancorato alla stessa quota e
+            ha iniziato a sconfinare sotto l'header stesso (bug reale,
+            verificato con Playwright il 2026-07-22). Centrandolo invece dentro
+            un contenitore flex che occupa lo spazio rimanente sotto l'header,
+            la posizione si adatta da sola a qualunque altezza abbia l'header,
+            senza più un numero magico da ritarare a ogni modifica. */}
         <div
           className={`rounded-md border-[3px] border-oro bg-crema p-[18px_22px] shadow-[0_12px_32px_rgba(0,0,0,0.35)] ${
-            isMobile ? "" : "max-h-[calc(100vh-160px)] overflow-y-auto"
+            isMobile ? "" : "w-[360px] max-h-full overflow-y-auto"
           }`}
         >
           <h2 className="mb-3 border-b-2 border-oro pb-2 text-center font-display text-[22px] tracking-wide text-vinaccia">

@@ -1,5 +1,6 @@
 import { useIsMobileLayout, cornerClassName } from "./useIsMobileLayout";
 import TeamCard from "./TeamCard";
+import RoomCodeBadge from "../RoomCodeBadge";
 import { RISK_LEVELS, formatDuration } from "../../data/lobbyOptions";
 import type { TeamColor } from "../../types";
 import type { LobbyState } from "./useLobbyState";
@@ -15,7 +16,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
+export default function LobbyPlayerView({ lobby, code }: { lobby: LobbyState; code: string }) {
   const isMobile = useIsMobileLayout();
 
   const riskDef = RISK_LEVELS.find((r) => r.value === lobby.riskLevel)!;
@@ -25,7 +26,7 @@ export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
       className={
         isMobile
           ? "relative min-h-screen overflow-auto px-3 pb-12 pt-5 text-inchiostro"
-          : "relative h-screen w-screen overflow-hidden text-inchiostro"
+          : "flex h-screen w-screen flex-col overflow-hidden text-inchiostro"
       }
       style={{
         background:
@@ -42,28 +43,33 @@ export default function LobbyPlayerView({ lobby }: { lobby: LobbyState }) {
         <p className="mt-0.5 text-[12px] uppercase tracking-[2.5px] text-oro-light">
           Lobby pre-partita — In attesa del via
         </p>
-        <a
-          href="/regole.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-block rounded-lg border border-oro/50 px-3 py-1.5 font-display text-[12px] tracking-wide text-oro-light/80 hover:bg-oro/10 hover:text-oro-light"
-        >
-          📖 Regole del gioco
-        </a>
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+          <a
+            href="/regole.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-lg border border-oro/50 px-3 py-1.5 font-display text-[12px] tracking-wide text-oro-light/80 hover:bg-oro/10 hover:text-oro-light"
+          >
+            📖 Regole del gioco
+          </a>
+          <RoomCodeBadge code={code} />
+        </div>
       </header>
 
       <div
         className={
           isMobile
             ? "relative mx-auto mb-5 w-[92%] max-w-[420px]"
-            : "absolute left-1/2 top-[122px] w-[360px] -translate-x-1/2"
+            : "flex min-h-0 flex-1 items-center justify-center py-3"
         }
       >
-        {/* Stesso tetto di altezza + scroll interno di LobbyCapoView: evita che
-            il pannello sconfini sotto al badge fisso della stanza. */}
+        {/* Stessa strategia di centratura flessibile di LobbyCapoView: evita
+            che il pannello sconfini sotto l'header, qualunque sia la sua
+            altezza (vedi commento gemello lì per il dettaglio del bug
+            originale). */}
         <div
           className={`rounded-md border-[3px] border-oro bg-crema p-[18px_22px] shadow-[0_12px_32px_rgba(0,0,0,0.35)] ${
-            isMobile ? "" : "max-h-[calc(100vh-160px)] overflow-y-auto"
+            isMobile ? "" : "w-[360px] max-h-full overflow-y-auto"
           }`}
         >
           <h2 className="mb-3 border-b-2 border-oro pb-2 text-center font-display text-[22px] tracking-wide text-vinaccia">

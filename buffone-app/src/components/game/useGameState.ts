@@ -40,6 +40,7 @@ interface SharedState {
   boardShaking: boolean;
   clueRemaining: number | "infinito";
   guessRemaining: number | "infinito";
+  round: number;
 }
 
 // Calcolata una sola volta, sull'host, perché contiene lo shuffle casuale
@@ -79,6 +80,7 @@ function buildInitialState(config: GameConfig): SharedState {
     boardShaking: false,
     clueRemaining: config.clueTimer.duration,
     guessRemaining: config.guessTimer.duration,
+    round: 0,
   };
 }
 
@@ -107,6 +109,7 @@ function placeholderState(config: GameConfig): SharedState {
     boardShaking: false,
     clueRemaining: config.clueTimer.duration,
     guessRemaining: config.guessTimer.duration,
+    round: 0,
   };
 }
 
@@ -153,10 +156,11 @@ type Action =
   | { type: "PASS_TURN" }
   | { type: "TICK_CLUE" }
   | { type: "TICK_GUESS" }
-  | { type: "CLEAR_BOARD_SHAKE" };
+  | { type: "CLEAR_BOARD_SHAKE" }
+  | { type: "NEW_GAME" };
 
 function reduce(s: SharedState, action: Action, config: GameConfig): SharedState {
-  if (s.winnerTeamId && action.type !== "CLEAR_BOARD_SHAKE") return s;
+  if (s.winnerTeamId && action.type !== "CLEAR_BOARD_SHAKE" && action.type !== "NEW_GAME") return s;
 
   switch (action.type) {
     case "SUBMIT_CLUE": {
@@ -267,6 +271,18 @@ function reduce(s: SharedState, action: Action, config: GameConfig): SharedState
     case "CLEAR_BOARD_SHAKE":
       return { ...s, boardShaking: false };
 
+    // Rigenera un tabellone/ordine turni completamente nuovo con le stesse
+    // impostazioni di partita (config è invariato per l'intera durata di
+    // questo hook), esattamente come se si premesse "Avvia Partita" dal
+    // menu — ma senza passare dalla lobby, e senza toccare Compagnie/ruoli
+    // (che vivono in useLobbyState, non qui). `round` incrementa per dare ai
+    // consumer (es. note private del giocatore in GameBoard) un segnale
+    // esplicito "è iniziata una partita nuova", dato che gli id delle carte
+    // sono posizionali e altrimenti resterebbero identici tra una partita e
+    // l'altra. Deciso il 2026-07-22.
+    case "NEW_GAME":
+      return { ...buildInitialState(config), round: s.round + 1 };
+
     default:
       return s;
   }
@@ -374,6 +390,7 @@ export function useGameState(channel: RoomChannel, isHost: boolean, initialConfi
     submitClue: () => dispatch({ type: "SUBMIT_CLUE", word: clueWordInput, number: clueNumberInput }),
     revealCard: (cardId: string) => dispatch({ type: "REVEAL_CARD", cardId }),
     passTurn: () => dispatch({ type: "PASS_TURN" }),
+    newGame: () => dispatch({ type: "NEW_GAME" }),
   };
 }
 

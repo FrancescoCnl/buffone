@@ -3,7 +3,6 @@ import LobbyCapoView from "./components/lobby/LobbyCapoView";
 import LobbyPlayerView from "./components/lobby/LobbyPlayerView";
 import GameBoard from "./components/game/GameBoard";
 import RoomEntry from "./components/RoomEntry";
-import RoomCodeBadge from "./components/RoomCodeBadge";
 import { useLobbyState } from "./components/lobby/useLobbyState";
 import { useRoomChannel } from "./hooks/useRoomChannel";
 import { useAnonymousAuth } from "./hooks/useAnonymousAuth";
@@ -114,15 +113,10 @@ export default function App() {
   }
 
   if (screen === "lobby") {
-    return (
-      <div className="relative">
-        <RoomCodeBadge code={room.code} />
-        {room.isHost ? (
-          <LobbyCapoView lobby={lobby} onStart={() => lobby.startGame()} />
-        ) : (
-          <LobbyPlayerView lobby={lobby} />
-        )}
-      </div>
+    return room.isHost ? (
+      <LobbyCapoView lobby={lobby} onStart={() => lobby.startGame()} code={room.code} />
+    ) : (
+      <LobbyPlayerView lobby={lobby} code={room.code} />
     );
   }
 

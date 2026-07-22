@@ -106,6 +106,14 @@ export default function GameBoard({
     });
   }
 
+  // Gli id delle carte sono posizionali (card-0, card-1...), quindi restano
+  // identici da una partita all'altra: senza questo reset, gli appunti presi
+  // sulla partita precedente resterebbero incollati alle carte nella stessa
+  // posizione del nuovo tabellone, mostrando note sbagliate.
+  useEffect(() => {
+    setNotes({});
+  }, [game.round]);
+
   // Stesso breakpoint della lobby (760px larghezza o 480px altezza): sotto
   // quella soglia le colonne a larghezza fissa (scoreboard/storico) non ci
   // starebbero e verrebbero tagliate da overflow-hidden — si passa quindi a
@@ -170,6 +178,20 @@ export default function GameBoard({
       className="rounded-lg border border-oro px-3.5 py-2 font-display text-[13px] tracking-wide text-oro-light hover:bg-oro/10"
     >
       ↩ Torna alla lobby
+    </button>
+  );
+
+  // Solo il capo-lobby (non il capo di una Compagnia — sono ruoli diversi,
+  // vedi memoria game-board-architecture) può rigenerare una partita, e solo
+  // a partita conclusa: rigenera subito un nuovo tabellone con le stesse
+  // Compagnie/regole, senza passare dalla lobby. Deciso il
+  // 2026-07-22.
+  const newGameButton = isHost && game.winnerTeamId && (
+    <button
+      onClick={() => game.newGame()}
+      className="rounded-lg border border-oro bg-oro/15 px-3.5 py-2 font-display text-[13px] tracking-wide text-oro-light hover:bg-oro/25"
+    >
+      🔄 Nuova partita
     </button>
   );
 
@@ -265,6 +287,7 @@ export default function GameBoard({
           </h1>
           <div className="flex items-center gap-2">
             {rulesLink}
+            {newGameButton}
             {exitButton}
           </div>
         </header>
@@ -321,6 +344,7 @@ export default function GameBoard({
         </div>
         <div className="flex items-center gap-2">
           {rulesLink}
+          {newGameButton}
           {exitButton}
         </div>
       </header>
