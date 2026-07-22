@@ -139,7 +139,7 @@ export default function LobbyCapoView({
                   −
                 </button>
                 <span className="font-display text-[16px] tracking-wide text-vinaccia">
-                  {lobby.customJesterCount} carta{lobby.customJesterCount === 1 ? "" : "e"} Giullare
+                  {lobby.customJesterCount} cart{lobby.customJesterCount === 1 ? "a" : "e"} Giullare
                 </span>
                 <button
                   onClick={() => lobby.setCustomJesterCount(lobby.customJesterCount + 1)}

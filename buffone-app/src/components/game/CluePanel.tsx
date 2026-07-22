@@ -82,8 +82,8 @@ export default function CluePanel({
         </button>
         {!!selectedCount && (
           <div className="text-[12.5px] italic text-oro-light/70">
-            {selectedCount} carta{selectedCount === 1 ? "" : "e"} selezionata
-            {selectedCount === 1 ? "" : "e"} (solo tu la vedi) — numero precompilato
+            {selectedCount} cart{selectedCount === 1 ? "a" : "e"} selezionat
+            {selectedCount === 1 ? "a" : "e"} (solo tu la vedi) — numero precompilato
           </div>
         )}
         <div className="ml-auto text-sm text-oro-light/70">
