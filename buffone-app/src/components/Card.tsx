@@ -74,8 +74,19 @@ export default function Card({
   // 2026-07-16: non deve MAI poter rientrare in gioco).
   const [peeking, setPeeking] = useState(false);
 
-  const seenColor: CardColor =
-    viewerRole === "spymaster" || card.revealed || revealAll ? card.color : "neutral";
+  // A fine partita si mostra sempre `originalColor`, non `color`: una carta
+  // di una squadra eliminata dal Giullare diventa `color: "neutral"` per il
+  // resto della partita (sez. 4.5, corretto per il gioco — non deve più
+  // poter essere indovinata), ma il reveal-all-colori di fine partita deve
+  // comunque mostrare il colore vero originale, non il neutro "fittizio"
+  // usato solo per la logica di turno (bug emerso in playtest il
+  // 2026-07-23: le carte della squadra Blu eliminata sparivano/diventavano
+  // grigie invece di restare blu nella schermata finale).
+  const seenColor: CardColor = revealAll
+    ? card.originalColor
+    : viewerRole === "spymaster" || card.revealed
+      ? card.color
+      : "neutral";
   const tint = TINT[seenColor];
   const confetti =
     card.resultKind === "own" ? buildConfetti(TEAM_COLOR_HEX[card.color as TeamColor]) : [];

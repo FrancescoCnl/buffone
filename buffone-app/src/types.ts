@@ -4,7 +4,10 @@ export type CardColor = TeamColor | "neutral" | "jester";
 export interface GameCard {
   id: string;
   word: string;
+  /** Colore di gioco corrente: può passare a "neutral" se la squadra proprietaria viene eliminata (sez. 4.5). */
   color: CardColor;
+  /** Colore reale assegnato alla generazione della griglia, mai più toccato — usato solo per il reveal di fine partita, così una carta neutralizzata da un'eliminazione mostra comunque il suo vero colore invece di sparire come neutra. */
+  originalColor: CardColor;
   revealed: boolean;
   illustration: string;
   /** Esito rispetto alla squadra che ha girato la carta, fissato al momento del reveal. */

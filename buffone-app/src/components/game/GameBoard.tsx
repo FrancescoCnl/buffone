@@ -43,6 +43,7 @@ export default function GameBoard({
   });
 
   const [confirmingExit, setConfirmingExit] = useState(false);
+  const [confirmingNewGame, setConfirmingNewGame] = useState(false);
 
   // Sez. 3.1 del doc di design: la vista dipende dal proprio ruolo reale,
   // non da un toggle manuale — i capi vedono sempre i veri colori.
@@ -182,17 +183,51 @@ export default function GameBoard({
   );
 
   // Solo il capo-lobby (non il capo di una Compagnia — sono ruoli diversi,
-  // vedi memoria game-board-architecture) può rigenerare una partita, e solo
-  // a partita conclusa: rigenera subito un nuovo tabellone con le stesse
-  // Compagnie/regole, senza passare dalla lobby. Deciso il
-  // 2026-07-22.
-  const newGameButton = isHost && game.winnerTeamId && (
+  // vedi memoria game-board-architecture) può rigenerare una partita, sempre
+  // visibile per lui, non solo a partita conclusa (deciso il
+  // 2026-07-23) — rigenera subito un nuovo tabellone con le stesse
+  // Compagnie/regole, senza passare dalla lobby. A partita ancora in corso
+  // chiede conferma (stesso pattern del pulsante "Torna alla lobby": è
+  // un'azione distruttiva per tutti i giocatori); a partita già conclusa
+  // parte subito, senza nulla da perdere.
+  const newGameButton = isHost && (
     <button
-      onClick={() => game.newGame()}
+      onClick={() => (game.winnerTeamId ? game.newGame() : setConfirmingNewGame(true))}
       className="rounded-lg border border-oro bg-oro/15 px-3.5 py-2 font-display text-[13px] tracking-wide text-oro-light hover:bg-oro/25"
     >
       🔄 Nuova partita
     </button>
+  );
+
+  const newGameConfirmDialog = confirmingNewGame && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+      <div className="w-full max-w-sm rounded-md border-[3px] border-oro bg-crema p-5 text-inchiostro shadow-[0_12px_32px_rgba(0,0,0,0.4)]">
+        <h2 className="mb-2 font-display text-lg tracking-wide text-vinaccia">
+          Ricominciare la partita?
+        </h2>
+        <p className="mb-4 text-[13.5px] text-inchiostro/80">
+          La partita in corso verrà annullata per tutti i giocatori e sostituita da un nuovo
+          tabellone, con le stesse Compagnie e regole.
+        </p>
+        <div className="flex justify-end gap-2.5">
+          <button
+            onClick={() => setConfirmingNewGame(false)}
+            className="rounded border border-vinaccia px-3.5 py-2 font-serif text-[13px] text-vinaccia hover:bg-vinaccia hover:text-crema"
+          >
+            Annulla
+          </button>
+          <button
+            onClick={() => {
+              game.newGame();
+              setConfirmingNewGame(false);
+            }}
+            className="rounded bg-vinaccia px-3.5 py-2 font-serif text-[13px] font-bold text-crema hover:bg-vinaccia-dark"
+          >
+            Sì, ricomincia
+          </button>
+        </div>
+      </div>
+    </div>
   );
 
   const rulesLink = (
@@ -277,6 +312,7 @@ export default function GameBoard({
         style={{ background: boardBackground(myTeamColor) }}
       >
         {exitConfirmDialog}
+        {newGameConfirmDialog}
         {victoryOverlay}
         <header className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <h1
@@ -330,6 +366,7 @@ export default function GameBoard({
       style={{ background: boardBackground(myTeamColor) }}
     >
       {exitConfirmDialog}
+      {newGameConfirmDialog}
       {victoryOverlay}
       <header className="mb-3.5 flex flex-shrink-0 flex-wrap items-center justify-between gap-4">
         <div className="flex items-baseline gap-3.5">

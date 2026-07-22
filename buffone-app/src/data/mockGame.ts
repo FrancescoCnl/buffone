@@ -75,6 +75,7 @@ export function buildGrid(
     id: `card-${i}`,
     word: words[i],
     color,
+    originalColor: color,
     revealed: false,
     illustration:
       color === "jester" ? jesterIllustration : pool[i % pool.length],
