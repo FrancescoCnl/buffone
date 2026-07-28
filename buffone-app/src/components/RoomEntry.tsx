@@ -117,6 +117,9 @@ export default function RoomEntry({
           Privacy Policy
         </a>
       </div>
+      <p className="mt-1 font-serif text-[10.5px] text-crema/30">
+        Illustrazioni generate con intelligenza artificiale.
+      </p>
     </div>
   );
 }
